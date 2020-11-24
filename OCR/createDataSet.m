@@ -8,7 +8,8 @@ function createDataSet()
     %createDataSet
     for i=1:size(templates,2)
         %imshow(templates{i})
-        tempHog{i}=matlab_HOG(templates{i});
+        %tempHog{i}=matlab_HOG(templates{i});
+        tempHog{i}=hog_propio(templates{i});
         c=tempHog;
         %disp(size(c))
     end

@@ -50,8 +50,8 @@ while 1
         %imshow(img_r);pause(0.5)
         
         %Extraer las características del HOG
-        img_r=matlab_HOG(img_r);
-              
+        %img_r=matlab_HOG(img_r);
+        img_r=hog_propio(img_r);     
         %Comparar histogramas con distancia euclidiana
         letter=read_letter(img_r, num_letras);
         
