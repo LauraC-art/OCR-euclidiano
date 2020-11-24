@@ -1,53 +1,34 @@
 function letter=read_letter(imagn,num_letras)
-% Computes the correlation between template and input image
-% and its output is a string containing the letter.
-% Size of 'imagn' must be 42 x 24 pixels
-% Example:
-% imagn=imread('D.bmp');
-% letter=read_letter(imagn)
+
 load tempHog
 global tempHog
-%Templates son matrices binarias en celdas
-% c=0;
-% %createDataSet
-% for i=1:size(templates,2)
-%     %imshow(templates{i})
-%     tempHog{i}=matlab_HOG(templates{i});
-%     c=tempHog;
-%     %disp(size(c))
-% end
-%Global templates sacar los hog
-%comp=[ ];
-%algo que compare histogramas
-daux=1000;
-letra='k';
 
-%prueba
-% addpath('C:\Users\USER\Documents\Uni\Imágenes\OCR\Mancito Pro\OCR\letters_numbers')
-% letra_prueba=imread('5.bmp');
-% letra_prueba=matlab_HOG(letra_prueba);
-% d = pdist2(imagn,letra_prueba);
-% 
-% disp(d);
-% 
+load templates
+global templates
+
+%esto es pal bloc:
+%comp=[ ];
+
+%Variables auxiliares
+daux=1000;
+letra=0;
+%El algo que debe retornar la función :v
 letter='A'
-for n=1:num_letras
-    
-    a=tempHog{1,n};
-    disp('')
-    %d = pdist2(imagn,tempHog{1,n});
-    
-    
-%     if d<daux
-%      daux=d;
-%      letra=n;
-%      disp(letra)
-%     end
-%     sem=corr2(templates{1,n},imagn);
-%     comp=[comp sem];
+
+%Clasificación usando distancia euclidiana
+for n=1:num_letras   
+    d = pdist2(imagn,tempHog{1,n});    
+    if d<daux
+     daux=d;
+     letra=n;     
+    end
 end
 
+%Mostrar letra identificada una a una
+figure;
+imshow(~(templates{1,letra}))
 
+%Esto es 
 % vd=find(comp==max(comp));
 % %*-*-*-*-*-*-*-*-*-*-*-*-*-
 % if vd==1
