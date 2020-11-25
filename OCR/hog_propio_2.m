@@ -1,71 +1,52 @@
 function H = hog_propio_2(I)
-% COMPUTE_HOG Computes the HOG descriptor of the given image computed
-%             with the specified paramters.
+%%
 %
-% INPUT:
-%       I: image to extract HOGs
-%       cell_size: size of the cells in pixels
-%       block_size: size of the blocks in cells
-%       n_bins: number of bins of the histograms
-%
-% OUTPUT: 
-%       H: HoG descriptor in a column vector form.
-%
-%
-%$ Author Jose Marcos Rodriguez $    
-%$ Date: 2013/20/08 22:00:00 $    
-%$ Revision: 1.1 $
+celdaSz=8;
+blSz=2;
+bins=9;
 
-%% Setting gradient configuration
-% gradient angle range control 
-cell_size=8;
-block_size=2;
-n_bins=9;
-epsilon = 0.0001;
-L_norm = 2;
-desp = 1;
 total_angles = 180.0;
-bin_width = total_angles/n_bins;
+bin_width = total_angles/bins;
 
-%% column matrix for mapping indices to bin center values
+%% Para mapear los centros de los intervalos
 bin_centers_map = (bin_width/2:bin_width:total_angles)';
 
-%% Compute the gradient in polar coordinates
-[angles, magnitudes] = gradiente(I);
+%%hallar el gradiente
+[angsGrad, magsGrad] = gradiente(I);
 
 %% Split the gradient in cells
-cell_coords = coordenadas(angles,cell_size,cell_size);
+coordCeldas = coordenadas(angsGrad,celdaSz,celdaSz);
 
 %% initialize 3 dimensional matrix to hold all the histograms
 % number of vertical and horizontal cells
 [height,width] = size(I(:,:,1));
-n_v_cells = floor(height/cell_size);
-n_h_cells = floor(width/cell_size);
+n_v_cells = floor(height/celdaSz);
+n_h_cells = floor(width/celdaSz);
 
 % init the histograms 3D matrix (7x14x9)
-histograms = zeros(n_v_cells,n_h_cells,n_bins);
+histograms = zeros(n_v_cells,n_h_cells,bins);
 
 
 
 % ================================================
 %% Computing histograms for all image cells
 % ================================================
-for index=1:size(cell_coords,2)
+for index=1:size(coordCeldas,2)
     
     % current cell histogram initialization
-    h = zeros(1,n_bins);
+    h = zeros(1,bins);
     
     % cell coords
-    x_min = cell_coords(1,index);
-    x_max = cell_coords(2,index);
-    y_min = cell_coords(3,index);
-    y_max = cell_coords(4,index);
+    x_min = coordCeldas(1,index);
+    x_max = coordCeldas(2,index);
+    y_min = coordCeldas(3,index);
+    y_max = coordCeldas(4,index);
 
     % retrieve angles and magnitudes for all the pixels in the 
     % cell and conversion to degrees.
-    angs = angles(y_min:y_max,x_min:x_max);
+    angs = angsGrad(y_min:y_max,x_min:x_max);
     angs = angs.*180/pi;
-    mags = magnitudes(y_min:y_max,x_min:x_max);
+    mags = magsGrad(y_min:y_max,x_min:x_max);
 
     % indices for the left and right histogram bins that bound
     % the current angle value for all the pixels in the cell
@@ -91,7 +72,7 @@ for index=1:size(cell_coords,2)
     
 
     % computing contributions for the current histogram bin by bin.
-    for bin=1:n_bins
+    for bin=1:bins
         % pixels that contribute to the bin with its left portion
         pixels_to_left = (left_indices == bin);
         h(bin) = h(bin) + sum(left_contributions(pixels_to_left));
@@ -111,37 +92,37 @@ end
 % ================================================
 %%          block normalization (L2 norm)
 % ================================================
-hist_size = block_size*block_size*n_bins;
-descriptor_size = hist_size*(n_v_cells-block_size+desp)*(n_h_cells-block_size+desp);
-H = zeros(descriptor_size, 1);
+hist_size = blSz*blSz*bins;
+% descriptor_size = hist_size*(n_v_cells-block_size+desp)*(n_h_cells-block_size+desp);
+% H = zeros(descriptor_size, 1);
 col = 1;
 row = 1;
-% H = [];
+H = [];
 
 %% Split the histogram matrix in blocks (this code assumes an 50% of overlap as desp is hard coded as 1)
-while row <= n_v_cells-block_size+1
-    while col <= n_h_cells-block_size+1
+while row <= n_v_cells-blSz+1
+    while col <= n_h_cells-blSz+1
         
         % Getting all the histograms for a block
         blockHists = ...
-            histograms(row:row+block_size-1, col:col+block_size-1, :);
+            histograms(row:row+blSz-1, col:col+blSz-1, :);
         
         % Getting the magnitude of the histograms of the block
-        magnitude = norm(blockHists(:),L_norm);
+        magnitude = norm(blockHists(:));
     
         % Divide all of the histogram values by the magnitude to normalize 
         % them.
-        normalized = blockHists / (magnitude + epsilon);
+        normalized = blockHists / (magnitude + 0.0001);
 
         % H = [H; normalized(:)];
-        offset = (row-1)*(n_h_cells-block_size+1)+col;
+        offset = (row-1)*(n_h_cells-blSz+1)+col;
         ini = (offset-1)*hist_size+1;
         fin = offset*hist_size;
 
         H(ini:fin,1) = normalized(:);
 
-        col = col+desp;
+        col = col+1;
     end
-    row = row+desp;
+    row = row+1;
     col = 1;
 end
