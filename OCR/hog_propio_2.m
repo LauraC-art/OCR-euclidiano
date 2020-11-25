@@ -90,22 +90,21 @@ col = 1;
 row = 1;
 H = [];
 
-%% Split the histogram matrix in blocks (this code assumes an 50% of overlap as desp is hard coded as 1)
+%% Seccionar la matriz de histogramas en bloques ---- (this code assumes an 50% of overlap as desp is hard coded as 1)
 while row <= numVCells-blSz+1
     while col <= numHCells-blSz+1
         
-        % Getting all the histograms for a block
+        % Los histogramas en un bloque:
         blockHists = ...
             histogramas(row:row+blSz-1, col:col+blSz-1, :);
         
-        % Getting the magnitude of the histograms of the block
+        % La magnitud de los histogramas en el bloque
+        %(Para normalizar)
         magnitude = norm(blockHists(:),2);
     
-        % Divide all of the histogram values by the magnitude to normalize 
-        % them.
+        % Normalizar los valores en el histograma
         normalized = blockHists / (magnitude + 0.0001);
 
-        % H = [H; normalized(:)];
         offset = (row-1)*(numHCells-blSz+1)+col;
         ini = (offset-1)*hist_size+1;
         fin = offset*hist_size;
