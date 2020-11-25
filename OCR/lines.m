@@ -1,18 +1,9 @@
 function [fl re]=lines(im_texto)
-% Divide text in lines
-% im_texto->input image; fl->first line; re->remain line
-% Example:
-% im_texto=imread('TEST_3.jpg');
-% [fl re]=lines(im_texto);
-% subplot(3,1,1);imshow(im_texto);title('INPUT IMAGE')
-% subplot(3,1,2);imshow(fl);title('FIRST LINE')
-% subplot(3,1,3);imshow(re);title('REMAIN LINES')
-im_texto=clip(im_texto);
 
-num_filas=size(im_texto,1);
+nFilas=size(im_texto,1);
 
-for s=1:num_filas
-    if sum(im_texto(s,:))==0
+for s=1:nFilas %Recorrer todas las filas
+    if sum(im_texto(s,:))==0 %Si la sumatoria en esa fila de la imagen es 0
         nm=im_texto(1:s-1, :); % First line matrix
         rm=im_texto(s:end, :);% Remain line matrix
         fl = clip(nm);
@@ -28,5 +19,7 @@ for s=1:num_filas
 end
 
 function img_out=clip(img_in)
-[f c]=find(img_in);
-img_out=img_in(min(f):max(f),min(c):max(c));%Crops image
+%Hallar índices de la imagen completa (párrafo)
+[f,c]=find(img_in);
+%
+img_out=img_in(min(f):max(f),min(c):max(c));%Corta la imagen

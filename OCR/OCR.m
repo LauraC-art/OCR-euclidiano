@@ -1,7 +1,6 @@
 %OCR empleando histograma de gradientes
 addpath('C:\Users\USER\Documents\Uni\Imágenes\OCR\OCR HOG\imgs')
 
-warning off %#ok<WNOFF>
 %La imagen de entrada
 imagen=imread('TEST_3.jpg');
 imshow(imagen);
@@ -10,19 +9,17 @@ if size(imagen,3)>1
     imagen=rgb2gray(imagen);
 end
 %Binarizar
-threshold = graythresh(imagen);
+% threshold = graythresh(imagen);
 imagen =~im2bw(imagen);
 
-%Quitar objetos con menos de 30 pixeles
-%imagen = bwareaopen(imagen,30);
 %----------------------------------------
 %Un array para guardar la palabra
+%y mostrar en el Bloc de Notas
 word=[ ];
 
 imagenSegmentada=imagen;
 %%
 %Para guardar en txt
-%Opens text.txt as file for write
 fid = fopen('text.txt', 'wt');
 %----------------------------------------
 %%
@@ -61,10 +58,9 @@ while 1
     end
     
     %eso es pa escribir:
-    %fprintf(fid,'%s\n',lower(word));%Write 'word' in text file (lower)
     fprintf(fid,'%s\n',word);%Write 'word' in text file (upper)
     
-    %Clear 'word' variable
+    %limpiar la variable antes de escribir
     word=[ ];
     
     %Salir del loop cuando ya termina la imagen
@@ -74,7 +70,5 @@ while 1
 end
 %Pa escribir en el bloc de notas
 fclose(fid);
-%Open 'text.txt' file
+%Abrir el archivo de texto
 winopen('text.txt')
-fprintf('For more information, visit: <a href= "http://www.matpic.com">www.matpic.com </a> \n')
-clear all

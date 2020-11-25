@@ -31,10 +31,10 @@ bin_width = total_angles/n_bins;
 bin_centers_map = (bin_width/2:bin_width:total_angles)';
 
 %% Compute the gradient in polar coordinates
-[angles, magnitudes] = compute_gradient(I);
+[angles, magnitudes] = gradiente(I);
 
 %% Split the gradient in cells
-cell_coords = compute_cell_coordinates(angles,cell_size,cell_size,false);
+cell_coords = coordenadas(angles,cell_size,cell_size);
 
 %% initialize 3 dimensional matrix to hold all the histograms
 % number of vertical and horizontal cells

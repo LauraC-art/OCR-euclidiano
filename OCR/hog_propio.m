@@ -7,6 +7,9 @@ c=size(im,2);
 if size(im,3)==3
   im=rgb2gray(im);
 end
+I = imadjust(im);
+imagen = ones(r+2,c+2);
+im(2:1+r,2:1+c) = I(:,:);
 %im=double(im);
 hx = [-1,0,1];
 hy = [1;0;-1];
