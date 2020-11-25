@@ -2,15 +2,15 @@
 addpath('C:\Users\USER\Documents\Uni\Imágenes\OCR\OCR HOG\imgs')
 
 %La imagen de entrada
-imagen=imread('TEST_5.jpg');
+imagen=imread('TEST_3.jpg');
 imshow(imagen);
 title('Imagen original')
 if size(imagen,3)>1
     imagen=rgb2gray(imagen);
 end
 %Binarizar
-% threshold = graythresh(imagen);
-imagen =~im2bw(imagen);
+threshold = graythresh(imagen);
+imagen =~im2bw(imagen, threshold);
 
 %----------------------------------------
 %Un array para guardar la palabra

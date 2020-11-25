@@ -3,9 +3,6 @@ disp(num_letras)
 load tempHog
 global tempHog
 
-load templates
-global templates
-
 %esto es pal bloc:
 %comp=[ ];
 
@@ -27,80 +24,80 @@ end
 %Mostrar letra identificada una a una
 %figure;
 %imshow(~(templates{1,letra}))
-vd=letra;
+
 %Esto es pal bloc de notas:
 % vd=find(comp==max(comp));
 % %*-*-*-*-*-*-*-*-*-*-*-*-*-
-if vd==1
+if letra==1
     letter='A';
-elseif vd==2
+elseif letra==2
     letter='B';
-elseif vd==3
+elseif letra==3
     letter='C';
-elseif vd==4
+elseif letra==4
     letter='D';
-elseif vd==5
+elseif letra==5
     letter='E';
-elseif vd==6
+elseif letra==6
     letter='F';
-elseif vd==7
+elseif letra==7
     letter='G';
-elseif vd==8
+elseif letra==8
     letter='H';
-elseif vd==9
+elseif letra==9
     letter='I';
-elseif vd==10
+elseif letra==10
     letter='J';
-elseif vd==11
+elseif letra==11
     letter='K';
-elseif vd==12
+elseif letra==12
     letter='L';
-elseif vd==13
+elseif letra==13
     letter='M';
-elseif vd==14
+elseif letra==14
     letter='N';
-elseif vd==15
+elseif letra==15
     letter='O';
-elseif vd==16
+elseif letra==16
     letter='P';
-elseif vd==17
+elseif letra==17
     letter='Q';
-elseif vd==18
+elseif letra==18
     letter='R';
-elseif vd==19
+elseif letra==19
     letter='S';
-elseif vd==20
+elseif letra==20
     letter='T';
-elseif vd==21
+elseif letra==21
     letter='U';
-elseif vd==22
+elseif letra==22
     letter='V';
-elseif vd==23
+elseif letra==23
     letter='W';
-elseif vd==24
+elseif letra==24
     letter='X';
-elseif vd==25
+elseif letra==25
     letter='Y';
-elseif vd==26
+elseif letra==26
     letter='Z';
     %*-*-*-*-*
-elseif vd==27
+elseif letra==27
     letter='1';
-elseif vd==28
+elseif letra==28
     letter='2';
-elseif vd==29
+elseif letra==29
     letter='3';
-elseif vd==30
+elseif letra==30
     letter='4';
-elseif vd==31
+elseif letra==31
     letter='5';
-elseif vd==32
+elseif letra==32
     letter='6';
-elseif vd==33
+elseif letra==33
     letter='7';
-elseif vd==34
+elseif letra==34
     letter='8';
-elseif vd==35
+elseif letra==35
     letter='9';
 else
     letter='0';
