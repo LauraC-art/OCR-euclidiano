@@ -11,10 +11,10 @@ if size(imagen,3)>1
 end
 %Binarizar
 threshold = graythresh(imagen);
-imagen =~im2bw(imagen,threshold);
+imagen =~im2bw(imagen);
 
 %Quitar objetos con menos de 30 pixeles
-imagen = bwareaopen(imagen,30);
+%imagen = bwareaopen(imagen,30);
 %----------------------------------------
 %Un array para guardar la palabra
 word=[ ];
@@ -52,7 +52,7 @@ while 1
         
         %Extraer las características del HOG
         %img_r=matlab_HOG(img_r);
-        img_r=hog_propio(img_r);     
+        img_r=hog_propio_2(double(img_r))';     
         %Comparar histogramas con distancia euclidiana
         letter=read_letter(img_r, num_letras);
         

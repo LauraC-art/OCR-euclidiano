@@ -1,6 +1,7 @@
 function [ feature] = hog_propio( im )
 %HOG Summary of this function goes here
 %Detailed explanation goes here
+imshow(im)
 r=size(im,1);
 c=size(im,2);
 if size(im,3)==3
