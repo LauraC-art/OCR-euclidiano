@@ -45,47 +45,53 @@ for counter=1:size(coordCeldas,2)
     angs = angs.*180/pi;
     mags = magsGrad(yMin:yMax,xMin:xMax);
 
-    % Indices de los intervalos izquierdo y derecho que limitan
+    % indices for the left and right histogram bins that bound
+    % the current angle value for all the pixels in the cell
     lIndices = round(angs/anchoInt);
     rIndices = lIndices+1;
 
-    % Contribuciones en el histograma
+    % wraping contributions over the histogram boundaries.
     lIndices(lIndices==0) = 9;
     rIndices(rIndices==10) = 1;
     
-    % Recuperar el retrieving the left bin center value.
+    % retrieving the left bin center value.
     lInt_centers = mCentrInt(lIndices);
     angs(angs < lInt_centers) = ...
         tAngs + angs(angs < lInt_centers);
     
     
-    % Contribución en ambos lados del intervalo -- (vote weight)
-    % son matrices del mismo tamaño de la celda
-    rContribs = (angs-lInt_centers)/anchoInt;
-    lContribs = 1 - rContribs;
-    lContribs = mags.*lContribs;
-    rContribs = mags.*rContribs;
+    % calculating the contribution to both bins sides (vote weight)
+    % (matrices with same size as the cell)
+    rContrbutions = (angs-lInt_centers)/anchoInt;
+    left_contributions = 1 - right_contributions;
+    left_contributions = mags.*left_contributions;
+    right_contributions = mags.*right_contributions;
     
-    % contribuciones al histograma intervalo por intervalo
+
+    % computing contributions for the current histogram bin by bin.
     for bin=1:bins
-        % Pixeles que contribuyen al intervalo izq.
-        pixLeft = (lIndices == bin);
-        h(bin) = h(bin) + sum(lContribs(pixLeft));
+        % pixels that contribute to the bin with its left portion
+        pixels_to_left = (lIndices == bin);
+        h(bin) = h(bin) + sum(left_contributions(pixels_to_left));
         
-        % Pixeles que contribuyen al intervalo der.
-        pixRight = (rIndices == bin);
-        h(bin) = h(bin) + sum(rContribs(pixRight));
+        % pixels that contribute to the bin with its right portion
+        pixels_to_right = (rIndices == bin);
+        h(bin) = h(bin) + sum(right_contributions(pixels_to_right));
     end
 
-    % Concatenar el histograma a la matriz de histogramas
-    rowOff = floor(counter/numHCells + 1);
-    colOff = mod(counter-1,numHCells)+1;
-    histogramas(rowOff,colOff,:) = h(1,:);
+    % appending current hist. to the histograms matrix
+    row_offset = floor(counter/numHCells + 1);
+    column_offset = mod(counter-1,numHCells)+1;
+    histogramas(row_offset,column_offset,:) = h(1,:);
 
 end
 
-%% Normalizar bloques
+% ================================================
+%%          block normalization (L2 norm)
+% ================================================
 hist_size = blSz*blSz*bins;
+% descriptor_size = hist_size*(n_v_cells-block_size+desp)*(n_h_cells-block_size+desp);
+% H = zeros(descriptor_size, 1);
 col = 1;
 row = 1;
 H = [];

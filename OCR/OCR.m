@@ -2,7 +2,7 @@
 addpath('C:\Users\USER\Documents\Uni\Imágenes\OCR\OCR HOG\imgs')
 
 %La imagen de entrada
-imagen=imread('TEST_4.jpg');
+imagen=imread('TEST_5.jpg');
 imshow(imagen);
 title('Imagen original')
 if size(imagen,3)>1
@@ -18,23 +18,24 @@ imagen =~im2bw(imagen);
 word=[ ];
 
 imagenSegmentada=imagen;
-%%
+
 %Para guardar en txt
 fid = fopen('text.txt', 'wt');
 %----------------------------------------
-%%
+
 %Los templates de los dataset de base
 load templates
 global templates
 %Número de letras en el template
 num_letras=size(templates,2);
-%%
+
 while 1
     %Sacar los renglones de la imagen
     [imgRenglon, imagenSegmentada]=lines(imagenSegmentada);
     images=imgRenglon;
     %Los renglones:
-    %imshow(imgRenglon);pause(0.5)  
+%     figure;
+%     imshow(imgRenglon);pause(0.5)  
         
     %Poner un label a cada región detectada
     [Labels, numRegiones] = bwlabel(images);
@@ -45,7 +46,7 @@ while 1
         %Ajustar tamaño (mismo tamaño que la del dataset base)
         img_r=imresize(n1,[42 24]);
         %Letras segmentadas una por una
-        %imshow(img_r);pause(0.5)
+        %figure,imshow(img_r);%pause(0.5)
         
         %Extraer las características del HOG
         %img_r=matlab_HOG(img_r);
