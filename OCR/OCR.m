@@ -3,11 +3,12 @@ addpath('C:\Users\USER\Documents\Uni\Imágenes\OCR\OCR HOG\imgs')
 
 warning off %#ok<WNOFF>
 %La imagen de entrada
-imagen=imread('TEST_2.jpg');
+imagen=imread('TEST_3.jpg');
 imshow(imagen);
 title('Imagen original')
-imagen=im2gray(imagen);
-
+if size(imagen,3)>1
+    imagen=rgb2gray(imagen);
+end
 %Binarizar
 threshold = graythresh(imagen);
 imagen =~im2bw(imagen,threshold);
@@ -16,13 +17,13 @@ imagen =~im2bw(imagen,threshold);
 imagen = bwareaopen(imagen,30);
 %----------------------------------------
 %Un array para guardar la palabra
-%word=[ ];
+word=[ ];
 
 imagenSegmentada=imagen;
 %%
 %Para guardar en txt
 %Opens text.txt as file for write
-%fid = fopen('text.txt', 'wt');
+fid = fopen('text.txt', 'wt');
 %----------------------------------------
 %%
 %Los templates de los dataset de base
@@ -56,15 +57,15 @@ while 1
         letter=read_letter(img_r, num_letras);
         
         %Esto es pa lo del bloc de notas: Letter concatenation        
-        %word=[word letter];
+        word=[word letter];
     end
     
     %eso es pa escribir:
     %fprintf(fid,'%s\n',lower(word));%Write 'word' in text file (lower)
-    %fprintf(fid,'%s\n',word);%Write 'word' in text file (upper)
+    fprintf(fid,'%s\n',word);%Write 'word' in text file (upper)
     
     %Clear 'word' variable
-    %word=[ ];
+    word=[ ];
     
     %Salir del loop cuando ya termina la imagen
     if isempty(imagenSegmentada)%See variable 're' in Fcn 'lines'
@@ -72,8 +73,8 @@ while 1
     end    
 end
 %Pa escribir en el bloc de notas
-%fclose(fid);
+fclose(fid);
 %Open 'text.txt' file
-% winopen('text.txt')
-% fprintf('For more information, visit: <a href= "http://www.matpic.com">www.matpic.com </a> \n')
-% clear all
+winopen('text.txt')
+fprintf('For more information, visit: <a href= "http://www.matpic.com">www.matpic.com </a> \n')
+clear all

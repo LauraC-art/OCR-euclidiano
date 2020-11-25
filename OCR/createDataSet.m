@@ -13,4 +13,5 @@ function createDataSet()
         c=tempHog;
         %disp(size(c))
     end
+    save ('tempHog','tempHog')
 end
