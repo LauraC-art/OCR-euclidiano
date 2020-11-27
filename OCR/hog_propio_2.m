@@ -174,13 +174,16 @@ while row <= numVCells-blSz+1   % filas <= 5 - 2 + 1 <= 4 (verticalmente)
         % Ej. row=1 y col=2, offset=(1-1)*(3-2+1)+ 2 = 2
         % Ej. row=2 y col=1, offset=(2-1)*(3-2+1)+1= 3
         
+        % Para concatenar el histograma final por bloques
         ini = (offset-1)*hist_size+1;
         fin = offset*hist_size;
-
+        
+        % Obtener histograma de la imagen a partir de concatenar
+        % los histogramas normalizados de los bloques
         H(ini:fin,1) = normalized(:);
 
-        col = col+1; % Se incrementa con paso 1
+        col = col+1; % Se incrementa con paso 1 para evaluar siguiente bloque (hacia la derecha)
     end
-    row = row+1;    % Se incrementa con paso 1
-    col = 1;        % Reiniciar col para pasar a siguiente bloque de filas
+    row = row+1;    % Se incrementa con paso 1 para tomar siguiente bloque (hacia abajo)
+    col = 1;        % Reiniciar col para evaluar el siguiente bloque de filas
 end
