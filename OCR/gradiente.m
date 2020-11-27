@@ -14,7 +14,7 @@ function [angs,mags] = gradiente(I)
     
     %Obtener dirección y magnitud
     angs = atan2(Gy,Gx);
-    mags = sqrt(Gy.^2 + Gx.^2);
+    mags = abs(Gy) + abs(Gx);
 
 % Dejar los ángulos en un rango entre 0 y 180
 angs(angs(:)<0) = angs(angs(:)<0)+pi;
