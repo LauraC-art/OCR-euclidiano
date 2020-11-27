@@ -1,5 +1,5 @@
 function letter=read_letter(imagn,num_letras)
-disp(num_letras)
+
 load tempHog
 global tempHog
 
@@ -25,8 +25,7 @@ end
 %figure;
 %imshow(~(templates{1,letra}))
 
-%Esto es pal bloc de notas:
-% vd=find(comp==max(comp));
+%Esto es para el bloc de notas:
 % %*-*-*-*-*-*-*-*-*-*-*-*-*-
 if letra==1
     letter='A';

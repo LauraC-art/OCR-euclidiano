@@ -110,27 +110,21 @@ for counter=1:size(coordCeldas,2) %1:15 por las columnas del array de celdas de 
     rContribs = (angs-lInt_centers)/anchoInt;   %Contribución al bin de su derecha
                                                 % Ej. (135-130)/20
     lContribs = 1 - rContribs;     % Contribución al bin de su izquierda
-    lContribs = mags.*lContribs;   % Se asigna la proporción de magnitud de
-                                   % la celda al bin izquierdo.
+    lContribs = mags.*lContribs;   % 
+    rContribs = mags.*rContribs;
     
-	rContribs = mags.*rContribs;   % Se asigna la proporción de magnitud de
-                                   % la celda al bin derecho.
-    
-    % Contribuciones al histograma intervalo por intervalo
-    for bin=1:bins         % Contador 1:9
-        
-        % Cantidad de pixeles que contribuyen al bin izq.
-        pixLeft = (lIndices == bin);    %lIndices indica el # de bin (1:9)
-        % El vector histograma en la posición del bin tomará la cantidad
-        % de contribuciones a la izquierda en ese bin.
+    % contribuciones al histograma intervalo por intervalo
+    for bin=1:bins
+        % Pixeles que contribuyen al intervalo izq.
+        pixLeft = (lIndices == bin);
         h(bin) = h(bin) + sum(lContribs(pixLeft));
         
-        % Cantidad de pixeles que contribuyen al intervalo derecho
+        % Pixeles que contribuyen al intervalo der.
         pixRight = (rIndices == bin);
         h(bin) = h(bin) + sum(rContribs(pixRight));
     end
 
-    % Concatenar el histograma en la matriz de histogramas
+    % Concatenar el histograma a la matriz de histogramas
     rowOff = floor(counter/numHCells + 1);
     colOff = mod(counter-1,numHCells)+1;
     histogramas(rowOff,colOff,:) = h(1,:);
