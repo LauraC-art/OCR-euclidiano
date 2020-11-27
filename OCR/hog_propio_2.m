@@ -67,7 +67,7 @@ for counter=1:size(coordCeldas,2) %1:15 por las columnas del array de celdas de 
                                         % los divide sobre el ancho del
                                         % intervalo (20).
                                         
-% Para el intervalo 135 el límite inferior es 7 (se encuentra en
+% Para el ángulo 135 el límite a la izquierda es 7 (se encuentra en
 % el intervalo 7) y su límite derecho sería 8
     rIndices = lIndices+1;
 
