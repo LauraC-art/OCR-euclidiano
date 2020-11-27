@@ -126,26 +126,34 @@ for counter=1:size(coordCeldas,2) %1:15 por las columnas del array de celdas de 
         h(bin) = h(bin) + sum(lContribs(pixLeft));
         
         % Cantidad de pixeles que contribuyen al intervalo derecho
-        pixRight = (rIndices == bin);   %rIndices = al # del bin
-        h(bin) = h(bin) + sum(rContribs(pixRight));
+        pixRight = (rIndices == bin);   % elementos de rIndices = al # del bin actual
+        h(bin) = h(bin) + sum(rContribs(pixRight)); %sumar contribuciones
     end
 
     % Concatenar el histograma en la matriz de histogramas
-    rowOff = floor(counter/numHCells + 1);
-    colOff = mod(counter-1,numHCells)+1;
-    histogramas(rowOff,colOff,:) = h(1,:);
-
+    rowOff = floor(counter/numHCells + 1);  % celdaActual/(celdasX + 1)
+                                            % Ej. última celda = 15
+                                            % rowOff = floor(15/3)+1 = 6
+                                            % + 1 porque digamos counter=1
+                                            % y floor(1/3) = 0, necesitamos
+                                            % un index > 1
+                                            
+    colOff = mod(counter-1,numHCells)+1;    % [1 1]
+    
+    histogramas(rowOff,colOff,:) = h(1,:);  % histogramas(filas, cols, bins)
+                                            % h es histograma actual
+                                            % quedan 6 filas y 3 columnas
 end
-
 %% Normalizar bloques
-hist_size = blSz*blSz*bins;
+hist_size = blSz*blSz*bins; %Tamaño del histograma por bloques = 2*2*9 = 36
 col = 1;
 row = 1;
-H = [];
+H = []; %Inicializar histograma final
 
-%% Seccionar la matriz de histogramas en bloques ---- (this code assumes an 50% of overlap as desp is hard coded as 1)
-while row <= numVCells-blSz+1
-    while col <= numHCells-blSz+1
+%% Seccionar la matriz de histogramas en bloques de la imagen
+% Parecido a "ventanear"
+while row <= numVCells-blSz+1   % filas <= 5 - 2 + 1 <= 4 (verticalmente)
+    while col <= numHCells-blSz+1   %cols <= 3 - 2 + 1 <= 2 (horizontalmente)
         
         % Los histogramas en un bloque:
         blockHists = ...
