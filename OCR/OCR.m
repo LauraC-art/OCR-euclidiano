@@ -70,7 +70,9 @@ while 1
         %Comparar histogramas con distancia euclidiana
         letter=read_letter(img_r, num_letras);
         
-        %Esto es para armar el bloc de notas: concatenar letras        
+        %Esto es para armar el bloc de notas: concatenar letras   
+        % primera vez: word=[letra_1]
+        % llega otra letra: word=[word letra_2]
         word=[word letter];
     end
     

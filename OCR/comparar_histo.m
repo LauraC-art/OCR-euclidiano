@@ -17,5 +17,5 @@ subplot(2,1,1);imshow(i1), title('Matriz de 0');
 subplot(2,1,2);imshow(i2), title('Matriz de 1');
 
 figure;
-subplot(2,1,1);plot(features1), title('Matriz de 0');
-subplot(2,1,2);plot(features2), title('Matriz de 1');
+subplot(2,1,1);plot(visualization), title('Matriz de 0');
+subplot(2,1,2);plot(visualization2), title('Matriz de 1');

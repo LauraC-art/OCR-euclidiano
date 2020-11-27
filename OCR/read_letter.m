@@ -3,14 +3,9 @@ function letter=read_letter(imagn,num_letras)
 load tempHog
 global tempHog
 
-%esto es pal bloc:
-%comp=[ ];
-
 %Variables auxiliares
 daux=1000;
 letra=0;
-%El algo que debe retornar la función :v
-%letter='A'
 
 %Clasificación usando distancia euclidiana
 for n=1:num_letras   

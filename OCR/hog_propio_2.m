@@ -126,7 +126,7 @@ for counter=1:size(coordCeldas,2) %1:15 por las columnas del array de celdas de 
         h(bin) = h(bin) + sum(lContribs(pixLeft));
         
         % Cantidad de pixeles que contribuyen al intervalo derecho
-        pixRight = (rIndices == bin);
+        pixRight = (rIndices == bin);   %rIndices = al # del bin
         h(bin) = h(bin) + sum(rContribs(pixRight));
     end
 
